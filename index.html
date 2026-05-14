@@ -129,16 +129,16 @@ const SEGS={
     context:"Clarivate solutions for corporate patent teams: IPfolio/FoundationIP/IPMS: patent portfolio management (built on Salesforce, zero failed implementations, automates renewals, due dates, integrates with Derwent/Innography). Derwent Innovation: patent intelligence and competitive analytics (58M+ patent families, 59 authorities). Innography: patent analytics for FTO, landscape analysis, litigation risk, portfolio valuation. Annuities/Renewals: global renewal payment management ($2B annually). PISA: analyst-led strategic portfolio reviews. Darts-ip: IP litigation intelligence (5M+ global records). Market dynamics 2025-26: AI-driven patent strategy evaluation becoming standard; IP teams under pressure to justify ROI to CFOs; M&A increasing demand for rapid portfolio valuation and FTO; companies restructuring IP strategy post-business pivots (EV, AI); cost pressure (Fortune 500 companies spend $5-15M annually on renewals alone); increasing need to align patent portfolio to corporate R&D and business strategy.",
     questions:[
       {id:"portfolio_type",label:"Portfolio type & scale",prompt:"What does your patent portfolio look like — and roughly how large is it?",options:["Under 500 patents","500–2,000 patents","2,000–10,000 patents","Over 10,000 patents globally"]},
-      {id:"pain_point",label:"Core pain point",prompt:"What’s taking up most of your IP team’s time right now?",options:["Renewal & annuity admin","Portfolio analytics & strategy","Prosecution & docketing","Evaluate new AI solutions","Cost visibility & reporting to leadership"]},
+      {id:"pain_point",label:"Core pain point",prompt:"What's taking up most of your IP team's time right now?",options:["Renewal & annuity admin","Portfolio analytics & strategy","Prosecution & docketing","Evaluate new AI solutions","Cost visibility & reporting to leadership"]},
       {id:"geography",label:"Geographic footprint",prompt:"Where are the majority of your filings geographically?",options:["Primarily US","Primarily Europe","Primarily Asia-Pacific","Globally distributed"]},
-      {id:"strategic_priority",label:"Strategic priority",prompt:"What’s the single biggest strategic priority for your IP function this year?",options:["Cost reduction & portfolio pruning","Competitive intelligence","Align portfolio to new business strategy","IP monetisation & licensing","M&A due diligence"]},
-      {id:"buying_stage",label:"Buying stage",prompt:"Where are you in terms of evaluating new solutions?",options:["Actively evaluating solutions","Building a business case","Exploring what’s possible","Just benchmarking"]}
+      {id:"strategic_priority",label:"Strategic priority",prompt:"What's the single biggest strategic priority for your IP function this year?",options:["Cost reduction & portfolio pruning","Competitive intelligence","Align portfolio to new business strategy","IP monetisation & licensing","M&A due diligence"]},
+      {id:"buying_stage",label:"Buying stage",prompt:"Where are you in terms of evaluating new solutions?",options:["Actively evaluating solutions","Building a business case","Exploring what's possible","Just benchmarking"]}
     ],
     intro:"Thanks for connecting. I focus my time on corporate patent teams — helping IP leaders understand where the market is heading and where there are opportunities to do more with their portfolio.
 
 Five quick questions to understand your situation. Ready?
 
-Let’s start:"
+Let's start:"
   },
   trademarks:{
     label:"Corporate Trademarks",
@@ -148,16 +148,16 @@ Let’s start:"
     context:"Clarivate solutions for corporate trademark teams: CompuMark: industry-standard trademark search and watch (188+ trademark authority databases, AI-enhanced risk prioritisation via RiskMark, Brand Landscape Analyzer, Watch Analyzer with Darts-ip litigation integration). IPfolio/FoundationIP: trademark lifecycle management software integrated with CompuMark data (automates watch orders, due dates, office actions, domain workflows, built on Salesforce). Renewals/Trademark Admin: managed trademark renewal and recordal services with global agent network. Darts-ip: 5M+ global IP case law records including trademark disputes. Brand Intelligence: trademark analytics and competitive monitoring. Market dynamics 2025-26: trademark leaders asked to make faster, higher-impact decisions with less tolerance for uncertainty; AI-enhanced trademark watch reducing false positives; brand portfolio complexity increasing as companies expand into new geographies and digital channels; M&A requiring rapid clearance and risk assessment; pressure to reduce external counsel costs by bringing more work in-house.",
     questions:[
       {id:"portfolio_type",label:"Portfolio type & scale",prompt:"What does your trademark portfolio look like?",options:["Under 200 marks","200–1,000 marks","1,000–5,000 marks","Over 5,000 marks globally"]},
-      {id:"pain_point",label:"Core pain point",prompt:"What’s taking up most of your trademark team’s time right now?",options:["Clearance searches & watch","Renewal & maintenance admin","Evaluate new AI solutions","Managing outside counsel costs","Global brand risk & monitoring"]},
+      {id:"pain_point",label:"Core pain point",prompt:"What's taking up most of your trademark team's time right now?",options:["Clearance searches & watch","Renewal & maintenance admin","Evaluate new AI solutions","Managing outside counsel costs","Global brand risk & monitoring"]},
       {id:"geography",label:"Geographic footprint",prompt:"Where are the majority of your trademark filings?",options:["Primarily US","Primarily Europe","Primarily Asia-Pacific","Globally distributed"]},
-      {id:"strategic_priority",label:"Strategic priority",prompt:"What’s the single biggest strategic priority for your trademark function this year?",options:["Cost reduction","Align portfolio to new business strategy","Brand risk & enforcement","Faster time-to-clearance","IP monetisation & licensing"]},
-      {id:"buying_stage",label:"Buying stage",prompt:"Where are you in terms of evaluating new solutions?",options:["Actively evaluating solutions","Building a business case","Exploring what’s possible","Just benchmarking"]}
+      {id:"strategic_priority",label:"Strategic priority",prompt:"What's the single biggest strategic priority for your trademark function this year?",options:["Cost reduction","Align portfolio to new business strategy","Brand risk & enforcement","Faster time-to-clearance","IP monetisation & licensing"]},
+      {id:"buying_stage",label:"Buying stage",prompt:"Where are you in terms of evaluating new solutions?",options:["Actively evaluating solutions","Building a business case","Exploring what's possible","Just benchmarking"]}
     ],
-    intro:"Thanks for connecting. I spend my time with corporate trademark teams — understanding the pressures they’re under and where the market is moving around brand risk, AI-enhanced search, and portfolio management.
+    intro:"Thanks for connecting. I spend my time with corporate trademark teams — understanding the pressures they're under and where the market is moving around brand risk, AI-enhanced search, and portfolio management.
 
 Five quick questions before I share anything relevant.
 
-Let’s start:"
+Let's start:"
   }
 };
 let curSeg="patents",answers={},curQ=-1,optDis=false,loading=false;
@@ -183,7 +183,7 @@ async function getResp(ua,qi,all){
 ${seg().context}
 Question ${qi+1} of 5. User answered: "${ua}". All answers: ${JSON.stringify(all)}
 ${fin?`Final question. Write a warm 3-sentence closing: (1) name the pattern across all five answers, (2) recommend exactly these two solutions: ${sols.join(" and ")} explaining why each fits their specific profile in one clause, (3) invite them to visit clarivate.com/intellectual-property to explore further. No bullets. Peer tone.`:"Write 2 sentences: (1) acknowledge their answer with a specific real market observation relevant to what they said, (2) bridge naturally to the next question without stating it. No bullets."}`;
-  try{const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:300,system:sys,messages:[{role:"user",content:ua}]})});const d=await r.json();return d.content?.[0]?.text||"Thanks for sharing that."}catch(e){return"Thanks for that — it’s a pattern I see often across corporate IP teams."}
+  try{const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:300,system:sys,messages:[{role:"user",content:ua}]})});const d=await r.json();return d.content?.[0]?.text||"Thanks for sharing that."}catch(e){return"Thanks for that — it's a pattern I see often across corporate IP teams."}
 }
 async function answer(a){
   if(curQ<0||loading)return;const qs=seg().questions;if(curQ>=qs.length)return;
